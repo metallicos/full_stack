@@ -4,7 +4,6 @@ namespace App\Security;
 
 use App\Document\User;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -17,7 +16,7 @@ class MongoUserProvider implements UserProviderInterface
     {
         $user = $this->dm->getRepository(User::class)->findOneBy(['email' => $identifier]);
         if (!$user) {
-            throw new UsernameNotFoundException(sprintf('User with email "%s" not found.', $identifier));
+            throw new UnsupportedUserException(sprintf('User with email "%s" not found.', $identifier));
         }
         return $user;
     }
